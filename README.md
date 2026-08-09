@@ -1,67 +1,30 @@
 # Todo Date
 
-## 日本語
+## 概要
 
-Chrome/Edge の拡張機能で、現在のタブのタイトルと URL を Todoist に日付付きで送信します。
+![Todo Date](screenshots/image.png)  
+Todo Date は、Chrome/Edge の拡張機能で、現在のタブのタイトルと URL を Todoist に日付付きで送信する。
+もともと、Todoist にはブラウザ用拡張機能があるが、それは多機能で簡単ではなかった。ブラウザを見ていて、拡張機能のボタンを押して、日付を選んだらそのままクリックで動作するものを作成した。
 
-もともと、Todoist にはブラウザ用拡張機能があるが、それは多機能で簡単では無かった。ブラウザを見ていて、拡張機能のボタンを押して、日付を選んだらそのままクリックで動作するものを作ってみた。
+### セットアップ／使い方
 
-### セットアップ
+1. GitHub からリポジトリをダウンロードまたはクローンする。
+   - ダウンロードの場合: このリポジトリのページで「Code」→「Download ZIP」を選び、展開する。
+   - クローンの場合: `git clone https://github.com/makoto0119/todo_date.git`
+2. Chrome または Edge で `chrome://extensions/` を開く。
+3. 右上の「デベロッパーモード」を有効にし、「パッケージ化されていない拡張機能を読み込む」をクリックする。
+4. ダウンロード先のフォルダ（`todo_date`）を選択して読み込む。
+5. 初回のみポップアップを開くと Todoist API トークンの入力が求められる。詳しくは Todoist 側のヘルプを参照する。
+6. 次回以降は期限（日付）を必要に応じて変更し、「Post to Todoist」をクリックすると、選択した期限付きで Todoist にタスクが登録される。
+7. 詳細手順は以下のページを参照する:
+   - [Chrome – ローカルの拡張機能をインストールする方法 | 設定Lab](https://setup-lab.net/chrome-extended-local-install/#google_vignette)
+8. トークンはブラウザのローカルに `chrome.storage.local` を使って保存している。
 
-1. 拡張機能を Chrome/Edge でアンパックされた拡張機能として読み込みます。
-2. ポップアップを開いて Todoist API トークンを入力します。
-3. 「Save Token」をクリックしてから「Post to Todoist」をクリックします。
+## トークン保存の確認方法
 
-## English
+もし、登録済みの token の中身を確認したり削除したい場合は、以下の手順で。
+- 拡張機能のポップアップを開く（`todo_date` を開いて、画面右クリック→「開発者ツールで調査する」）。
+- DevTools では次のことができる:
+  - **Application** タブ → **Storage** → **Local storage** → `chrome-extension://<extension-id>` を確認し、`todoistToken` キーを探す。
 
-A Chrome/Edge extension that posts the current tab title and URL to Todoist with a selected due date.
-もともと、Todoist にはブラウザ用拡張機能があるが、それは多機能で簡単では無かった。ブラウザを見ていて、拡張機能のボタンを押して、日付を選んだらそのままクリックで動作するものを作ってみた。
-
-## Setup
-
-1. Load the extension in Chrome/Edge as an unpacked extension.
-2. Open the popup and enter your Todoist API token.
-3. Click "Save Token" and then "Post to Todoist".
-
-## Notes
-
-- The token is stored locally in the browser using `chrome.storage.local`.
-- Do not commit any real API token to GitHub.
-- To inspect the saved token, open the extension popup, open DevTools, and run:
-  ```js
-  chrome.storage.local.get(['todoistToken'], console.log);
-  ```
-  If `chrome.storage.local` is unavailable, you can also check:
-  ```js
-  localStorage.getItem('todoistToken')
-  ```
-
-## How I verified token storage (conversation notes)
-
-During development I verified where the token is stored and how to view it in the browser. Steps I used and recommended:
-
-- Open the extension popup (click the extension icon and open `todo_date`).
-- Open the popup's DevTools via right-click → `Inspect`, or from `chrome://extensions/` use **Inspect views → popup**.
-- In DevTools you can:
-  - Check under the **Application** tab → **Storage** → **Local storage** → `chrome-extension://<extension-id>` and look for the `todoistToken` key.
-  - Or run in the popup console:
-    ```js
-    chrome.storage.local.get(['todoistToken'], console.log);
-    ```
-
-If you see a warning about pasting code in the console, type `allow pasting` first and press Enter, then paste the command.
-
-### Screenshot (paste your screenshots into `screenshots/` and commit them)
-
-Below are placeholders — place actual screenshots at the indicated paths so they render in this README.
-
-Saved token in Application tab:
-
-![Saved token in Application tab](screenshots/token_local_redacted.svg)
-
-Console showing storage check:
-
-![Console storage check](screenshots/console_storage_redacted.svg)
-
-If you want, I can commit these screenshots to the repo if you provide the image files or confirm I should create placeholder files.
-
+![画面イメージ](screenshots/image2.png)  
