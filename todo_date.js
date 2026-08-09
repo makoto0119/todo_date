@@ -9,6 +9,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   const statusDiv = $("status");
   const datePicker = $("due-date-picker");
   const tokenInput = $("todoist-token");
+  const tokenSection = $("token-section");
   const tokenStorageKey = "todoistToken";
 
   $("url").textContent = currentUrl;
@@ -23,22 +24,48 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   };
   datePicker.value = toYMD(new Date());
 
+  const storageArea = chrome.storage?.local;
+
   const loadStoredToken = () =>
     new Promise((resolve) => {
-      chrome.storage.sync.get([tokenStorageKey], (items) => {
-        resolve(items[tokenStorageKey] || "");
-      });
+      if (storageArea) {
+        storageArea.get([tokenStorageKey], (items) => {
+          if (chrome.runtime.lastError) {
+            console.warn("chrome.storage.local.get failed", chrome.runtime.lastError);
+            resolve(localStorage.getItem(tokenStorageKey) || "");
+          } else {
+            resolve(items[tokenStorageKey] || "");
+          }
+        });
+      } else {
+        resolve(localStorage.getItem(tokenStorageKey) || "");
+      }
     });
 
   const saveStoredToken = (token) =>
     new Promise((resolve, reject) => {
-      chrome.storage.sync.set({ [tokenStorageKey]: token }, () => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
+      if (storageArea) {
+        storageArea.set({ [tokenStorageKey]: token }, () => {
+          if (chrome.runtime.lastError) {
+            console.warn("chrome.storage.local.set failed", chrome.runtime.lastError);
+            try {
+              localStorage.setItem(tokenStorageKey, token);
+              resolve();
+            } catch (localError) {
+              reject(localError);
+            }
+          } else {
+            resolve();
+          }
+        });
+      } else {
+        try {
+          localStorage.setItem(tokenStorageKey, token);
           resolve();
+        } catch (localError) {
+          reject(localError);
         }
-      });
+      }
     });
 
   // uuid（randomUUIDが無ければフォールバック）
@@ -49,7 +76,10 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 
   const initializeToken = async () => {
     const storedToken = await loadStoredToken();
-    tokenInput.value = storedToken;
+    if (storedToken) {
+      tokenInput.value = storedToken;
+      tokenSection.style.display = "none";
+    }
   };
 
   initializeToken().catch((e) => {
@@ -66,6 +96,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 
     try {
       await saveStoredToken(token);
+      tokenSection.style.display = "none";
       statusDiv.textContent = "Token saved locally.";
     } catch (e) {
       console.error(e);
