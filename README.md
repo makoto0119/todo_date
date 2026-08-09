@@ -1,5 +1,19 @@
 # Todo Date
 
+## 日本語
+
+Chrome/Edge の拡張機能で、現在のタブのタイトルと URL を Todoist に日付付きで送信します。
+
+もともと、Todoist にはブラウザ用拡張機能があるが、それは多機能で簡単では無かった。ブラウザを見ていて、拡張機能のボタンを押して、日付を選んだらそのままクリックで動作するものを作ってみた。
+
+### セットアップ
+
+1. 拡張機能を Chrome/Edge でアンパックされた拡張機能として読み込みます。
+2. ポップアップを開いて Todoist API トークンを入力します。
+3. 「Save Token」をクリックしてから「Post to Todoist」をクリックします。
+
+## English
+
 A Chrome/Edge extension that posts the current tab title and URL to Todoist with a selected due date.
 もともと、Todoist にはブラウザ用拡張機能があるが、それは多機能で簡単では無かった。ブラウザを見ていて、拡張機能のボタンを押して、日付を選んだらそのままクリックで動作するものを作ってみた。
 
