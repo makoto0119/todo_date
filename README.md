@@ -11,5 +11,43 @@ A Chrome/Edge extension that posts the current tab title and URL to Todoist with
 
 ## Notes
 
-- The token is stored locally in the browser using `chrome.storage.sync`.
+- The token is stored locally in the browser using `chrome.storage.local`.
 - Do not commit any real API token to GitHub.
+- To inspect the saved token, open the extension popup, open DevTools, and run:
+  ```js
+  chrome.storage.local.get(['todoistToken'], console.log);
+  ```
+  If `chrome.storage.local` is unavailable, you can also check:
+  ```js
+  localStorage.getItem('todoistToken')
+  ```
+
+## How I verified token storage (conversation notes)
+
+During development I verified where the token is stored and how to view it in the browser. Steps I used and recommended:
+
+- Open the extension popup (click the extension icon and open `todo_date`).
+- Open the popup's DevTools via right-click → `Inspect`, or from `chrome://extensions/` use **Inspect views → popup**.
+- In DevTools you can:
+  - Check under the **Application** tab → **Storage** → **Local storage** → `chrome-extension://<extension-id>` and look for the `todoistToken` key.
+  - Or run in the popup console:
+    ```js
+    chrome.storage.local.get(['todoistToken'], console.log);
+    ```
+
+If you see a warning about pasting code in the console, type `allow pasting` first and press Enter, then paste the command.
+
+### Screenshot (paste your screenshots into `screenshots/` and commit them)
+
+Below are placeholders — place actual screenshots at the indicated paths so they render in this README.
+
+Saved token in Application tab:
+
+![Saved token in Application tab](screenshots/token_local.png)
+
+Console showing storage check:
+
+![Console storage check](screenshots/console_storage.png)
+
+If you want, I can commit these screenshots to the repo if you provide the image files or confirm I should create placeholder files.
+
