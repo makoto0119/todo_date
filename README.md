@@ -43,11 +43,11 @@ Below are placeholders — place actual screenshots at the indicated paths so th
 
 Saved token in Application tab:
 
-![Saved token in Application tab](screenshots/token_local.svg)
+![Saved token in Application tab](screenshots/token_local_redacted.svg)
 
 Console showing storage check:
 
-![Console storage check](screenshots/console_storage.svg)
+![Console storage check](screenshots/console_storage_redacted.svg)
 
 If you want, I can commit these screenshots to the repo if you provide the image files or confirm I should create placeholder files.
 
