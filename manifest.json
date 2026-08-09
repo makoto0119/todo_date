@@ -1,0 +1,30 @@
+{
+  "name": "todo_date",
+  "description": "Todoistに日付を指定してURLをpostします",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "todo_date.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.todoist.com/"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H",
+        "mac": "MacCtrl+Shift+H"
+      },
+      "description": "Run extension."
+    }
+  }
+}
