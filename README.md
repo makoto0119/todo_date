@@ -1,6 +1,7 @@
 # Todo Date
 
 A Chrome/Edge extension that posts the current tab title and URL to Todoist with a selected due date.
+もともと、Todoist にはブラウザ用拡張機能があるが、それは多機能で簡単では無かった。ブラウザを見ていて、拡張機能のボタンを押して、日付を選んだらそのままクリックで動作するものを作ってみた。
 
 ## Setup
 
