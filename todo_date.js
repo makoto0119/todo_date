@@ -33,8 +33,14 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (chrome.runtime.lastError) {
             console.warn("chrome.storage.local.get failed", chrome.runtime.lastError);
             resolve(localStorage.getItem(tokenStorageKey) || "");
+            return;
+          }
+
+          const token = items?.[tokenStorageKey];
+          if (token) {
+            resolve(token);
           } else {
-            resolve(items[tokenStorageKey] || "");
+            resolve(localStorage.getItem(tokenStorageKey) || "");
           }
         });
       } else {
@@ -44,17 +50,26 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 
   const saveStoredToken = (token) =>
     new Promise((resolve, reject) => {
+      const saveToLocalStorage = () => {
+        try {
+          localStorage.setItem(tokenStorageKey, token);
+        } catch (localError) {
+          console.warn("localStorage.setItem failed", localError);
+        }
+      };
+
       if (storageArea) {
         storageArea.set({ [tokenStorageKey]: token }, () => {
           if (chrome.runtime.lastError) {
             console.warn("chrome.storage.local.set failed", chrome.runtime.lastError);
             try {
-              localStorage.setItem(tokenStorageKey, token);
+              saveToLocalStorage();
               resolve();
             } catch (localError) {
               reject(localError);
             }
           } else {
+            saveToLocalStorage();
             resolve();
           }
         });
